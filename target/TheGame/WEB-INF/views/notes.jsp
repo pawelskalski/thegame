@@ -31,7 +31,17 @@ Krótka potrzeba jednego bohatera
 srednia potrzeba dwoch bohaterów
 długa potrzeba trzech
 na krótka mozna wysłać dwóch etc wysłanie kapłana dodaje do kostek + coś tam
-
+Poziom	Doświadczenie
+1	0
+2	100
+3	200
+4	400
+5	800
+6	1500
+7	2600
+8	4200
+9	6400
+10	9300
 
 </body>
 </html>
