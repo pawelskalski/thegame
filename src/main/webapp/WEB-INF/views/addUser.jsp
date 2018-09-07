@@ -14,7 +14,7 @@
 <body>
 <form:form method="post" modelAttribute="User">
     Username:<form:input path="username" /> <br>
-    Email<form:textarea path="email" /> <br>
+    Email<form:input path="email" /> <br>
     Leader Name:<form:input path="leaderName"/> <br>
     Password:<form:input path="password"/> <br>
     <input type="submit" value="Create user">

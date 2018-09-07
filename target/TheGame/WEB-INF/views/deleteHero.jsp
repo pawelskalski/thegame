@@ -2,26 +2,21 @@
 <%--
   Created by IntelliJ IDEA.
   User: pawel
-  Date: 06.09.18
-  Time: 19:15
+  Date: 05.09.18
+  Time: 11:26
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>AdminAddProject</title>
 </head>
 <body>
-
-<p>Choose hero for this adventure</p>
-<p>Your foe is ${urFoe}, so choose wisely</p>
 <form:form method="post" modelAttribute="UserHeroes">
-    <form:select path="name" items="${allHeroesNames}"/> <br>
-    <form:errors path="*"/>
+    Choose id of hero u want to delete<form:input path="id"/> <br>
     <input type="submit" value="Create user">
+    <form:errors path="*"/>
 </form:form>
-
-
 
 
 </body>

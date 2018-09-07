@@ -37,6 +37,12 @@ public class UserHeroesServices {
         List<UserHeroes> Users = query.getResultList();
         return Users;
     }
+    public List<UserHeroes> findAllHeroesFromUser(Long id){
+        TypedQuery<UserHeroes> query = entityManager.createQuery("SELECT userHeroes from UserHeroes userHeroes where userHeroes.ownerId = :id", UserHeroes.class);
+        query.setParameter("id", id);
+        List<UserHeroes> AllHeroes = query.getResultList();
+        return AllHeroes;
+    }
     public UserHeroes findHeroeByName(String name){
         List<UserHeroes> allHeroes = findAllHeroes();
         for (UserHeroes hero: allHeroes

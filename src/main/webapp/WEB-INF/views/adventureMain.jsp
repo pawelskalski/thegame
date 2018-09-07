@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-Strona główna przygód
+Adventure's main site
 
 </body>
 </html>

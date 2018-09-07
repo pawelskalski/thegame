@@ -132,6 +132,7 @@ public class UserHeroes {
         this.experiencePoints = experiencePoints;
     }
 
+
     @Override
     public String toString() {
         return "UserHeroes{" +

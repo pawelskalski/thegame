@@ -37,6 +37,7 @@ public class AdventureController {
     public Collection<String> allHeroesNames() {
         return userServices.getAllHeroesNamesForUserId(new Long(1));
     }
+    //TODO change id, let action geti it from session
 
     @ModelAttribute("urFoe")
     public String randomizedFoe() {
@@ -79,7 +80,7 @@ public class AdventureController {
             }else{
                 userHeroesServices.updateHero(hero);
 
-                return hero.getName() + " won";
+                return hero.getName() + " won and earned: " + earnedExp+ "experience points";
             }
         }
         return "Your hero lost";

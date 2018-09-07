@@ -12,6 +12,7 @@ import pl.coderslab.Services.ShortAdventureFoesServices;
 import pl.coderslab.Services.UserHeroesServices;
 import pl.coderslab.Services.UserServices;
 
+import java.util.List;
 import java.util.Random;
 
 @Controller
@@ -25,11 +26,12 @@ public class HomeController {
     private ShortAdventureFoesServices shortAdventureFoesServices;
 
     @RequestMapping("/main")
-    private String showHome(){
+    private String showHome() {
         return "home";
     }
+
     @GetMapping("/add")
-    private String addUserGet(Model model){
+    private String addUserGet(Model model) {
         Random r = new Random();
         int randomInt = r.nextInt(3) + 1;
         ShortAdventureFoes foe1 = new ShortAdventureFoes();
@@ -50,30 +52,123 @@ public class HomeController {
         model.addAttribute("User", new User());
         return "addUser";
     }
+
     @PostMapping("/add")
     @ResponseBody
-    private String addUserPost(@ModelAttribute User user){
-        String string = "Utworzono użytkownika " + user.getUsername()
-                + " Nazwa lidera " + user.getLeaderName();
+    private String addUserPost(@ModelAttribute User user) {
+        String string = "Created user: " + user.getUsername()
+                + " World will know him as: " + user.getLeaderName();
         userServices.addUser(user);
         return string;
     }
 
+    @RequestMapping("/showUsers")
+    @ResponseBody
+    private String showAllUsersPost() {
+        String string = "";
+        List<User> list = userServices.findAllUsers();
+        for (User user : list
+                ) {
+            string += "Id: " + user.getId()
+                    + ", Username: " + user.getUsername()
+                    + ", email: " + user.getEmail()
+                    + ", Leader name: " + user.getLeaderName()
+                    + "<br>";
+
+
+        }
+        return string;
+    }
+
+    @RequestMapping("/deleteUser/{id}")
+    @ResponseBody
+    private String deleteUserWhereIdIs(@PathVariable long id) {
+        try {
+            userServices.deleteUser(userServices.findUserById(id));
+            List<UserHeroes> list = userHeroesServices.findAllHeroesFromUser(id);
+            for (UserHeroes hero : list
+                    ) {
+                userHeroesServices.deleteHero(hero);
+
+            }
+            return "Delete user and all his heroes";
+        } catch (Exception e) {
+            return "Cant find user";
+        }
+
+    }
+
+    @GetMapping("/editUser")
+    private String updateUser(Model model) {
+        model.addAttribute("User", new User());
+        return "editUser";
+    }
+
+    @PostMapping("/editUser")
+    @ResponseBody
+    private String updateUserPost(@ModelAttribute User updatedUser) {
+        try {
+            User oldUser = userServices.findUserById(updatedUser.getId());
+            oldUser.setEmail(updatedUser.getEmail());
+            oldUser.setLeaderName(updatedUser.getLeaderName());
+            oldUser.setPassword(updatedUser.getPassword());
+            userServices.updateUser(oldUser);
+            return "User changed";
+        } catch (Exception e) {
+            return "Cant find User";
+        }
+    }
+
     @GetMapping("/createHero")
-    private String createHeroGet(Model model){
+    private String createHeroGet(Model model) {
         model.addAttribute("UserHeroes", new UserHeroes());
         return "createHero";
 
     }
+
     @PostMapping("/createHero")
     @ResponseBody
-    private String createHeroPost(@ModelAttribute UserHeroes userHeroes){
+    private String createHeroPost(@ModelAttribute UserHeroes userHeroes) {
         userHeroes.setLevel(Long.valueOf(1));
         userHeroes.setExperiencePoints(Long.valueOf(0));
 
 
         userHeroesServices.addUserHero(userHeroes);
 
-        return "Utworzono bohater o klasie "+ userHeroes.getHeroClass()+" dla uzytkownika o id "+ userHeroes.getOwnerId();
+        return "Hero: " + userHeroes.getHeroClass() + " created for user which id is:  " + userHeroes.getOwnerId();
+    }
+
+    @GetMapping("/updateHero")
+    private String updateHero(Model model) {
+        model.addAttribute("UserHeroes", new UserHeroes());
+        return "updateHero";
+    }
+
+    @PostMapping("/updateHero")
+    @ResponseBody
+    String updateHeroPost(@ModelAttribute UserHeroes updatedHero) {
+        try {
+            UserHeroes oldHero = userHeroesServices.findHeroById(updatedHero.getId());
+            oldHero.setName(updatedHero.getName());
+            userHeroesServices.updateHero(oldHero);
+            return "Changed hero name";
+        } catch (Exception e) {
+            return "Hero not found";
+        }
+    }
+    @GetMapping("/deleteHero")
+    private String deleteHeroGet(Model model){
+        model.addAttribute("UserHeroes", new UserHeroes());
+        return "deleteHero";
+    }
+    @PostMapping("/deleteHero")
+    @ResponseBody
+    private String deleteHeroPost(@ModelAttribute UserHeroes hero) {
+        try {
+            userHeroesServices.deleteHero(userHeroesServices.findHeroById(hero.getId()));
+            return "Hero deleted";
+        } catch (Exception e) {
+            return "hero not found";
+        }
     }
 }

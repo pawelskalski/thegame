@@ -18,9 +18,9 @@
     <form:select path="heroClass">
         <form:option value="knight" label="Knight"/>
         <form:option value="rogue" label="Rogue"/>
-        <form:option value="wizard" label="Wizard"/>
+        <form:option value="wizard" label="Wizard" />
     </form:select><br>
-    <form:input path="ownerId"/>
+    <form:input path="ownerId" />
     <input type="submit" value="Create user">
     <form:errors path="*"/>
 </form:form>

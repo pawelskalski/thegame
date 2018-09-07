@@ -13,8 +13,8 @@
 </head>
 <body>
 
-<p>Którego bohatera chcesz wysłać</p>
-<p>Twój przeciwnik to ${urFoe} wybierz rozważnie</p>
+<p>Choose hero for this adventure</p>
+<p>Your foe is ${urFoe}, so choose wisely</p>
 <form:form method="post" modelAttribute="UserHeroes">
     <form:select path="name" items="${allHeroesNames}"/> <br>
     <form:errors path="*"/>
