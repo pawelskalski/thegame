@@ -171,4 +171,9 @@ public class HomeController {
             return "hero not found";
         }
     }
+    @RequestMapping("/todo")
+    @ResponseBody
+    private String showTODO(){
+        return "validation <br> register and login <br>";
+    }
 }
