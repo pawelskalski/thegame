@@ -32,10 +32,6 @@ public class AdventureController {
     @Autowired
     private UserServices userServices;
 
-    private EasyAdventure easyAdventure;
-
-    private Exping exping;
-
 
     @ModelAttribute("allHeroesNames")
     public Collection<String> allHeroesNames() {
@@ -67,17 +63,29 @@ public class AdventureController {
     @PostMapping("/sendHero")
     @ResponseBody
     public String sendHeroPost(@ModelAttribute UserHeroes userHeroes) {
+        EasyAdventure adventure = new EasyAdventure();
+        Exping exping = new Exping();
         UserHeroes hero = userHeroesServices.findHeroeByName(userHeroes.getName());
         ShortAdventureFoes foe = shortAdventureFoesServices.findShortAdventureFoesByName(randomizedFoe());
-        if(easyAdventure.fight(foe,hero)){
-           return "wygrana" ;
-        }else{
-            return "przegrana";
-        }
-    }
+        if (adventure.fight(foe.getFoeClass(), hero.getHeroClass())) {
+            Long levelcap = hero.getLevel()*100;
+            Long earnedExp = exping.WonEasyAdventure(hero, foe);
+            hero.setExperiencePoints(hero.getExperiencePoints()+earnedExp);
+            if(hero.getExperiencePoints()>levelcap){
+                hero.setLevel(hero.getLevel()+1);
+                userHeroesServices.updateHero(hero);
+                return hero.getName() + " won got promotet his current level is " + hero.getLevel();
 
-                //easyAdventure.fight(foe, hero) ? exping.WonEasyAdventure(hero, foe) : hero.getName() + " lost this fight";
+            }else{
+                userHeroesServices.updateHero(hero);
+
+                return hero.getName() + " won";
+            }
+        }
+        return "Your hero lost";
     }
+}
+
 
 
 
