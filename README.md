@@ -5,3 +5,5 @@ Technology used:
 Language: Java
 Frameworks: Maven, Spring, Hibernate.
 Container: Tomcat
+TODO:
+Validation and admin panel via Spring Security, expand fight system.
